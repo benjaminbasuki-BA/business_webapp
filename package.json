@@ -1,0 +1,25 @@
+{
+  "name": "merchant-canvas",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"node server/index.js\" \"vite --host 0.0.0.0\"",
+    "build": "vite build",
+    "start": "node server/index.js",
+    "test": "node --test server/*.test.js"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.3.14",
+    "express": "^5.1.0",
+    "lucide-react": "^0.468.0",
+    "pg": "^8.16.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.2.1",
+    "playwright-core": "^1.65.1",
+    "vite": "^6.3.5"
+  }
+}

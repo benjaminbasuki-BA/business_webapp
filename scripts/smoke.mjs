@@ -1,0 +1,21 @@
+import { chromium } from 'playwright-core';
+import { mkdir } from 'node:fs/promises';
+
+const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true, args: ['--no-sandbox'] });
+await mkdir('.data', { recursive: true });
+const errors = [];
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
+page.on('pageerror', e => errors.push(e.message));
+await page.goto('http://localhost:3001/', { waitUntil: 'networkidle' });
+await page.getByRole('button', { name: /sign in/i }).click();
+await page.getByText('Welcome back, Alex').waitFor();
+await page.screenshot({ path: '.data/dashboard.png', fullPage: true });
+await page.getByRole('button', { name: 'Sales', exact: true }).click();
+await page.getByText('The sales marketplace').waitFor();
+await page.screenshot({ path: '.data/shop.png', fullPage: true });
+await page.setViewportSize({ width: 390, height: 844 });
+await page.waitForTimeout(450);
+await page.screenshot({ path: '.data/mobile.png', fullPage: true });
+console.log(JSON.stringify({ dashboard: '.data/dashboard.png', shop: '.data/shop.png', mobile: '.data/mobile.png', errors }));
+await browser.close();
+if(errors.length) process.exitCode=1;
